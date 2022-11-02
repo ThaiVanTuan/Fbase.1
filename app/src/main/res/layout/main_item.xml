@@ -14,34 +14,32 @@
         >
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@mipmap/ic_launcher"
             android:id="@+id/anhimage"
-            app:civ_border_width="2dp"
-            app:civ_border_color="#FF000000"/>
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:padding="10dp" />
 
         <TextView
             android:id="@+id/tentext"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginTop="6dp"
             android:layout_toRightOf="@+id/anhimage"
-            android:text="Tên bài hát"
-            android:textColor="#000"
-            android:textSize="18sp"
+            android:text="Tên"
+            android:textColor="#000000"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/motatext"
-            android:text="Mô tả"
-            android:textSize="18sp"
-            android:textColor="#000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/tentext"
+            android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/anhimage"
-            android:layout_marginLeft="10dp"/>
+            android:text="Mô tả"
+            android:textColor="#000000"
+            android:textSize="18sp"/>
 
         <LinearLayout
             android:layout_below="@+id/anhimage"

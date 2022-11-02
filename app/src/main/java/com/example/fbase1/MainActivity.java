@@ -1,97 +1,61 @@
 package com.example.fbase1;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.SearchView;
-
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.database.FirebaseDatabase;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-
-    RecyclerView recyclerView;
-    MainAdapter mainAdapter;
-
-    FloatingActionButton floatingActionButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+//        getSupportActionBar().setBackgroundDrawable(
+//                new ColorDrawable(Color.parseColor("#FF03DAC5")));
 
-        recyclerView = (RecyclerView)findViewById(R.id.rv);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        FirebaseRecyclerOptions<MainModel> options =
-                new FirebaseRecyclerOptions.Builder<MainModel>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Baihat"), MainModel.class)
-                        .build();
-
-        mainAdapter = new MainAdapter(options);
-        recyclerView.setAdapter(mainAdapter);
-
-        floatingActionButton = (FloatingActionButton)findViewById(R.id.floatingActionButton);
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+        TextView tvopen = (TextView) findViewById(R.id.gotoRegister);
+        tvopen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),AddActivity.class));
+                doOpenRegester();
+            }
+
+            public void doOpenRegester() {
+                Intent myIntent = new Intent(MainActivity.this, RegesterActivity.class);
+                startActivity(myIntent);
             }
         });
+        Button btnOpen = (Button)
+                findViewById(R.id.btnLogin);
+        btnOpen.setOnClickListener(arg0 -> doOpenChildActivity());
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mainAdapter.startListening();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        mainAdapter.stopListening();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        getMenuInflater().inflate(R.menu.search,menu);
-        MenuItem item = menu.findItem(R.id.search);
-        SearchView searchView = (SearchView)item.getActionView();
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                txtSearch(query);
-                return false;
+    public void doOpenChildActivity() {
+        TextView inputEmail = (TextView)
+                findViewById(R.id.inputEmail);
+        TextView inputPassword = (TextView)
+                findViewById(R.id.inputPassrowd);
+        if (inputEmail.getText().length() != 0 && inputPassword.getText().length() != 0) {
+            if (inputEmail.getText().toString().equals("thaivantuan") && inputPassword.getText().toString().equals("12345")) {
+                Intent myIntent = new Intent(MainActivity.this, ProfileActivity.class);
+                startActivity(myIntent);
+                Toast.makeText(MainActivity.this, "Logged in successfully!", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(MainActivity.this, "Wrong account or password!", Toast.LENGTH_SHORT).show();
+                inputEmail.setText("");
+                inputPassword.setText("");
             }
+        }else{
+            Toast.makeText(MainActivity.this, "Fill in all the information!", Toast.LENGTH_SHORT).show();
+        }
 
-            @Override
-            public boolean onQueryTextChange(String query) {
-                txtSearch(query);
-                return false;
-            }
-        });
-
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    private void txtSearch(String str)
-    {
-        FirebaseRecyclerOptions<MainModel> options =
-                new FirebaseRecyclerOptions.Builder<MainModel>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Baihat").orderByChild("Mota").startAt(str).endAt(str+"~"), MainModel.class)
-                        .build();
-
-        mainAdapter = new MainAdapter(options);
-        mainAdapter.startListening();
-        recyclerView.setAdapter(mainAdapter);
     }
 }
+
