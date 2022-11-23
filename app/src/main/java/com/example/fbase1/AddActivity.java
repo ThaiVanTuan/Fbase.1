@@ -23,7 +23,7 @@ public class AddActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.baihat);
+        setContentView(R.layout.activity_add);
 
         tenbaihat = (EditText)findViewById(R.id.txttenbaihat);
         mota = (EditText)findViewById(R.id.txtmota);
@@ -37,6 +37,7 @@ public class AddActivity extends AppCompatActivity {
             public void onClick(View v) {
                 insertData();
                 clearAll();
+                finish();
             }
         });
 
